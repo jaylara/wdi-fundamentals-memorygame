@@ -6,3 +6,5 @@
 
 console.log("User flipped " + cardOne);
 console.log("User flipped " + cardTwo);
+console.log("User flipped " + cardOne);
+console.log("User flipped " + cardTwo);
