@@ -1,24 +1,16 @@
 console.log("Up and running!");
 
+//for keeping score
+var wins = 0, losses = 0;
+
 //array of selectable cards
 var cards = [
-   {
-     rank: "queen", suit: "hearts",
-     cardImage: "images/queen-of-hearts.png"
-   },
-   {
-     rank: "queen", suit: "diamonds",
-     cardImage: "images/queen-of-diamonds.png"
-   },
-   {
-     rank: "king", suit: "hearts",
-     cardImage: "images/king-of-hearts.png"
-   },
-   {
-     rank: "king", suit: "diamonds",
-     cardImage: "images/king-of-diamonds.png"
-   }
+   { rank: "queen", suit: "hearts", cardImage: "images/queen-of-hearts.png" },
+   { rank: "queen", suit: "diamonds", cardImage: "images/queen-of-diamonds.png" },
+   { rank: "king", suit: "hearts", cardImage: "images/king-of-hearts.png" },
+   { rank: "king", suit: "diamonds", cardImage: "images/king-of-diamonds.png" }
  ];
+
 //array of two cards in play
 var cardsInPlay = [];
 
@@ -26,15 +18,23 @@ var cardsInPlay = [];
 var checkForMatch = function() {
   if(cardsInPlay.length === 2) {
     if(cardsInPlay[0] === cardsInPlay[1]) {
-      alert("You found a match!!");
+      document.getElementById('wins').textContent = ++wins;
+      document.getElementById('matchInfo').textContent = "You found a match!!";
     } else {
-      alert("Sorry, try again!!");
+      document.getElementById('losses').textContent = ++losses;
+      document.getElementById('matchInfo').textContent = "Sorry, try again!!";
     }
   }
 }
 
 //flips a card
 var flipCard = function() {
+  if(cardsInPlay.length === 2)  {
+    document.getElementById('matchInfo').textContent = "Sorry, the Round has ended. The Board has been Reset.";
+    resetBoard();
+    return;
+  }
+
   var cardId = this.getAttribute('data-id');
   console.log("User flipped "+ cards[cardId].rank
               +" ("+ cards[cardId].suit
@@ -52,8 +52,17 @@ var createBoard = function() {
     newCardImg.setAttribute('src', 'images/back.png');
     newCardImg.addEventListener('click',flipCard);
     document.getElementById('game-board').appendChild(newCardImg);
+
   }
 }
 
-/*START*/
+//resets the game board
+var resetBoard = function() {
+  cardsInPlay = [];
+  var imgs = document.getElementById('game-board').getElementsByTagName('img');
+  for(i = 0; i < cards.length; i++) {
+    imgs[i].setAttribute('src', 'images/back.png');
+  }
+}
+
 createBoard();
